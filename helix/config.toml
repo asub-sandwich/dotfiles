@@ -1,0 +1,46 @@
+theme = "gruvbox_dark_soft"
+
+[editor]
+true-color = true
+continue-comments = false
+bufferline = "multiple"
+end-of-line-diagnostics = "hint"
+
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-name"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "|"
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+max-depth = 1
+
+[editor.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+"'" = "'"
+'`' = '`'
+'<' = '>' 
+
+[editor.soft-wrap]
+enable = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning"
+
+[keys.normal]
+C-v = ":clipboard-paste-after"
+
+[keys.insert]
+C-c = "normal_mode"
