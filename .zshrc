@@ -14,33 +14,67 @@ plugins=(
 	dirhistory
 )
 
-source $ZSH/oh-my-zsh.sh
-source <(fzf --zsh)
-HISTFILE=~/.zsh_history
+## ZSH INIT ##
+case $- in
+	*i*) INTERACTIVE=1 ;;
+	*)   INTERACTIVE=0 ;;
+esac
+
+source "$ZSH/oh-my-zsh.sh"
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 unsetopt correct
 unsetopt correctall
 
-## APPEARANCE ##
-default_config="$HOME/.config/ohmyposh/EDM115-newline.omp.json"
-tty_config="%n @ %1d $ "
-velvet_config="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/velvet.omp.json"
-
-if [ "$TERM" != "linux" ]; then
-	if curl -fsI "$velvet_config" -o /dev/null; then
-		eval "$(oh-my-posh init zsh --config "$velvet_config")"
+## FUZZY FIND ##
+if [[ $INTERACTIVE -eq 1 ]]; then
+	if [[ -r /usr/share/fzf/key-bindings.zsh ]]; then
+		source /usr/share/fzf/key-bindings.zsh
 	else
-		eval "$(oh-my-posh init zsh --config "$default_config")"
+		echo "Fuzzy find (fzf) key-bindings not found!"
 	fi
-else
-	PROMPT="$tty_config"
+	if [[ -r /usr/share/fzf/completion.zsh ]]; then
+		source /usr/share/fzf/completion.zsh
+	fi
+fi
+
+## APPEARANCE ##
+velvet_local="$HOME/.config/ohmyposh/velvet.omp.json"
+velvet_remote="https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/velvet.omp.json"
+tty_config="%n @ %1d $ "
+
+if [[ $INTERACTIVE -eq 1 ]]; then
+	if [[ "$TERM" != "linux" ]]; then
+		if [[ -r "$velvet_local" ]]; then
+			eval "$(oh-my-posh init zsh --config "$velvet_local")"
+		else
+			eval "$(oh-my-posh init zsh --config "$velvet_remote")"
+		fi
+	else
+		PROMPT="$tty_config"
+	fi
+fi
+
+## COMPLETION ##
+if [[ $INTERACTIVE -eq 1 ]]; then
+	autoload -Uz compinit
+	compinit -C
 fi
 
 ## EXTRA PLUGINS ##
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ $INTERACTIVE -eq 1 ]]; then
+	local plugin_root="/usr/share/zsh/plugins"
+	local syntax="$plugin_root/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+	local autosug="$plugin_root/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	if [[ -r "$syntax" ]]; then
+		source "$syntax"
+	fi
+	if [[ -r "$autosug" ]]; then
+		source "$autosug"
+	fi
+fi
 
 ## ALIASES ##
 alias c='clear'
@@ -48,12 +82,20 @@ alias ff='fastfetch'
 alias ls='eza --icons=always --group-directories-first'
 alias la='eza -a --icons=always --group-directories-first'
 alias ll='eza -al --icons=always --group-directories-first'
-alias lt='eza -a --tree --level=1 --icons=always --group-directories-first'
+alias lt='eza -a --tree --level=2 --icons=always --group-directories-first'
 alias v='$EDITOR .'
 alias z='source $HOME/.zshrc'
 alias zconf='$EDITOR $HOME/dotfiles/.zshrc'
 
+## BYTECODE COMPILE ##
+if [[ -s "$HOME/dotfiles/.zshrc" ]]; then
+	local zwc="$HOME/dotfiles/.zshrc.zwc"
+	if [[ ! -s "$zwc" || "$HOME/dotfiles/.zshrc" -nt "$zwc" ]]; then
+		zcompile "$HOME/dotfiles/.zshrc"
+	fi
+fi
+
 ## AUTOSTART ##
-if [[ $(tty) == *"pts"* ]]; then
+if [[ $INTERACTIVE -eq 1 && $(tty) == *"pts"* ]]; then
 	fastfetch --config examples/13
 fi
