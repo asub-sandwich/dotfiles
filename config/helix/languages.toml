@@ -7,3 +7,15 @@ scope = "source.csv"
 name = "csv"
 source.git = "https://github.com/weartist/rainbow-csv-tree-sitter"
 source.rev = "896e6d09b23a1b0d87e45bf97ca34a249f41495c"
+
+[[language]]
+name = "c"
+file-types = ["c", "h"]
+scope = "source.c"
+
+[[language]]
+name = "python"
+auto-format = true
+
+[language-server.pylsp.config.pylsp.plugins]
+black.enabled = true
