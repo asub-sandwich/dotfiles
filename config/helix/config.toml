@@ -5,6 +5,7 @@ true-color = true
 continue-comments = false
 bufferline = "multiple"
 end-of-line-diagnostics = "hint"
+color-modes = true
 
 [editor.statusline]
 left = ["mode", "spinner"]
@@ -22,7 +23,7 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
-max-depth = 1
+max-depth = 3
 
 [editor.auto-pairs]
 '(' = ')'
@@ -31,7 +32,6 @@ max-depth = 1
 '"' = '"'
 "'" = "'"
 '`' = '`'
-'<' = '>' 
 
 [editor.soft-wrap]
 enable = true
@@ -41,6 +41,7 @@ cursor-line = "warning"
 
 [keys.normal]
 C-v = ":clipboard-paste-after"
+C-c = ":clipboard-yank"
 
 [keys.insert]
 C-c = "normal_mode"
