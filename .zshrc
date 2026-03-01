@@ -1,7 +1,7 @@
 ## INIT ##
 export EDITOR=hx
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/share/positron:$PATH"
 
 ## CONFIGURATION ##
 POSH=agnoster
