@@ -16,8 +16,8 @@ plugins=(
 
 ## ZSH INIT ##
 case $- in
-	*i*) INTERACTIVE=1 ;;
-	*)   INTERACTIVE=0 ;;
+*i*) INTERACTIVE=1 ;;
+*) INTERACTIVE=0 ;;
 esac
 
 source "$ZSH/oh-my-zsh.sh"
@@ -86,6 +86,9 @@ alias lt='eza -a --tree --level=2 --icons=always --group-directories-first'
 alias v='$EDITOR .'
 alias z='source $HOME/.zshrc'
 alias zconf='$EDITOR $HOME/dotfiles/.zshrc'
+alias vpn='sudo systemctl start /opt/cisco/secureclient/bin/vpnagentd'
+alias status='ff --config examples/28'
+alias fetch='ff --config examples/25'
 
 ## BYTECODE COMPILE ##
 if [[ -s "$HOME/dotfiles/.zshrc" ]]; then
@@ -97,5 +100,5 @@ fi
 
 ## AUTOSTART ##
 if [[ $INTERACTIVE -eq 1 && $(tty) == *"pts"* ]]; then
-	fastfetch --config examples/13
+	fastfetch --config examples/18
 fi
