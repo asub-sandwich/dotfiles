@@ -1,6 +1,5 @@
 ## INIT ##
 export EDITOR=hx
-export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/share/positron:$PATH"
 
 ## CONFIGURATION ##
@@ -20,7 +19,6 @@ case $- in
 *) INTERACTIVE=0 ;;
 esac
 
-source "$ZSH/oh-my-zsh.sh"
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
